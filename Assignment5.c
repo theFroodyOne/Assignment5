@@ -4,8 +4,8 @@
 #include <math.h>
 #define randomreal0() (rand()/(RAND_MAX+1.0))
 
-int L = 50;
-int LS = 2500;
+int L = 200;
+int LS = 40000;
 double deltaHsPlus[9];
 double deltaHsMinus[9];
 
@@ -19,7 +19,7 @@ int main(int argc, char** argv){
     double J = strtod(argv[1], NULL);
     double h = strtod(argv[2], NULL);
     char* filename = malloc(sizeof(char)*101);
-    sprintf(filename,"data/J %.3f h %.3f L %d.csv", J, h, L);
+    sprintf(filename,"part1data/J %.3f h %.3f L %d.csv", J, h, L);
     FILE *output = fopen(filename, "w");
     fprintf(output, "Sweep, M/L^2, |M|/L^2\n");
     int latticeSize = L*L;
@@ -64,14 +64,12 @@ int main(int argc, char** argv){
         for(int j = 0; j < latticeSize; j ++){
             M += lattice[j];
         }
-        sumM += M;
-        sumAbsM += abs(M);
-        sumM2 += M*M;
         fprintf(output, "%d, %f, %f\n", i, (double)M/latticeSize, (double)abs(M)/latticeSize);
 
         //todo energy stuff
     }
-    //record values
-    //printf("");
-    printf("<M>: %f, <|M|>: %f, <M^2>: %f\n", sumM/passes, sumAbsM/passes, sumM2/passes);
+    sumM /= L*L;
+    sumAbsM /= L*L;
+    sumM2 /= L*L;
+    printf("<m>: %f, <|m|>: %f, <m^2>: %f\n", sumM/passes, sumAbsM/passes, sumM2/passes);
 }
