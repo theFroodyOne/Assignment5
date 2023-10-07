@@ -4,8 +4,8 @@
 #include <math.h>
 #define randomreal0() (rand()/(RAND_MAX+1.0))
 
-int L = 4;
-int LS = 16;
+int L = 10;
+int LS = 100;
 double deltaHs[9];
 
 //macros for wrapping
@@ -23,7 +23,7 @@ int main(int argc, char** argv){
     fprintf(output, "Sweep, M/L^2, |M|/L^2\n");
     int latticeSize = L*L;
     signed char* lattice = malloc(sizeof(char)*latticeSize);
-    memset(lattice, -1, sizeof(char)*latticeSize);
+    memset(lattice, 1, sizeof(char)*latticeSize);
     for(int i = -4; i <= 4; i ++){
         double beta = 1;
         deltaHs[i+4] = beta*exp(-2*(i*J+2*h));
