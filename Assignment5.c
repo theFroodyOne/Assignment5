@@ -4,10 +4,9 @@
 #include <math.h>
 #define randomreal0() (rand()/(RAND_MAX+1.0))
 
-int L = 200;
-int LS = 40000;
-double deltaHsPlus[9];
-double deltaHsMinus[9];
+int L = 4;
+int LS = 16;
+double deltaHs[9];
 
 //macros for wrapping
 #define left(j) (j == 0) ? (L - 1) : (j - 1)
@@ -27,8 +26,7 @@ int main(int argc, char** argv){
     memset(lattice, -1, sizeof(char)*latticeSize);
     for(int i = -4; i <= 4; i ++){
         double beta = 1;
-        deltaHsPlus[i+4] = beta*exp(-2*(i*J+2*h));
-        deltaHsMinus[i+4] = beta*exp(-2*(i*J-2*h));
+        deltaHs[i+4] = beta*exp(-2*(i*J+2*h));
     }
     int passes = 1000;
     signed char si;
@@ -50,13 +48,13 @@ int main(int argc, char** argv){
             sigmaSj += lattice[up(j)];
             sigmaSj += lattice[down(j)];
             if(si == 1){
-                p = deltaHsPlus[si*sigmaSj+4];
+                p = deltaHs[si*sigmaSj+4];
                 if(randomreal0() < p || p > 1){
                     lattice[j] = -1;
                 }
             }else{
-                p = deltaHsMinus[si*sigmaSj+4];
-                if(randomreal0() < p*RAND_MAX || p > 1){
+                p = deltaHs[si*sigmaSj+4];
+                if(randomreal0() < p || p > 1){
                     lattice[j] = 1;
                 }
             }
