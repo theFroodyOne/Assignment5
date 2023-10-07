@@ -6,8 +6,7 @@
 
 int L = 200;
 int LS = 40000;
-double deltaHsPlus[9];
-double deltaHsMinus[9];
+double deltaHs[9];
 
 //macros for wrapping
 #define left(j) (j == 0) ? (L - 1) : (j - 1)
@@ -24,11 +23,10 @@ int main(int argc, char** argv){
         double J = k/100.0;
         int latticeSize = L * L;
         signed char *lattice = malloc(sizeof(char) * latticeSize);
-        memset(lattice, -1, sizeof(char) * latticeSize);
+        memset(lattice, 1, sizeof(char) * latticeSize);
         for (int i = -4; i <= 4; i++) {
             double beta = 1;
-            deltaHsPlus[i + 4] = beta * exp(-2 * (i * J + 2 * h));
-            deltaHsMinus[i + 4] = beta * exp(-2 * (i * J - 2 * h));
+            deltaHs[i + 4] = beta * exp(-2 * (i * J + 2 * h));
         }
         int passes = 10000;
         int equilibration = passes/10;
@@ -50,12 +48,12 @@ int main(int argc, char** argv){
                 sigmaSj += lattice[up(j)];
                 sigmaSj += lattice[down(j)];
                 if (si == 1) {
-                    p = deltaHsPlus[si * sigmaSj + 4];
+                    p = deltaHs[si * sigmaSj + 4];
                     if (randomreal0() < p || p > 1) {
                         lattice[j] = -1;
                     }
                 } else {
-                    p = deltaHsPlus[si * sigmaSj + 4];
+                    p = deltaHs[si * sigmaSj + 4];
                     if (randomreal0() < p || p > 1) {
                         lattice[j] = 1;
                     }
