@@ -35,7 +35,7 @@ int main(int argc, char** argv){
         double p;
         int M;
         double sumM = 0;
-        double *Grs = calloc(21, sizeof(double));
+        double *Grs = calloc(101, sizeof(double));
         for (int i = 0; i < passes; i++) {
             M = 0;
             for (int j = 0; j < latticeSize; j++) {
@@ -64,7 +64,7 @@ int main(int argc, char** argv){
             if (i >= equilibration) {
                 sumM += M;
                 for(int k = 0; k < L - 1; k ++){
-                    for(int r = 1; r <= 20; r ++){
+                    for(int r = 1; r <= 100; r ++){
                         Grs[r] += lattice[k*L]*lattice[k*L + r];
                     }
                 }
@@ -72,7 +72,7 @@ int main(int argc, char** argv){
         }
         sumM /= (passes - equilibration);
         fprintf(output, "%f, %f", t, sumM/latticeSize);
-        for(int i = 1; i <= 20; i ++){
+        for(int i = 1; i <= 100; i ++){
             Grs[i] /= (L - 1)*(passes - equilibration);
             fprintf(output, ", %f", Grs[i]);
         }
